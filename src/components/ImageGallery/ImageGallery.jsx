@@ -4,11 +4,11 @@ import { ImageGalleryList } from './ImageGallery.styled';
 const ImageGallery = ({ foundImages }) => {
   return (
     <ImageGalleryList>
-      {foundImages.map(({ id, webformatURL, tags }) => (
+      {foundImages.map(({ id, webformatURL, tags, largeImageURL }) => (
         <ImageGalleryItem
           key={id}
           webformatURL={webformatURL}
-          // largeImageURL={largeImageURL}
+          largeImageURL={largeImageURL}
           tags={tags}
         />
       ))}

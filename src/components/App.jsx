@@ -4,6 +4,7 @@ import { Component } from 'react';
 import Searchbar from './Searchbar';
 import ImageGallery from './ImageGallery';
 import Loader from './Loader';
+// import Modal from './Modal';
 import { MainWrapper } from './App.styled';
 
 import { fetchImgGallery } from '../services/api';
