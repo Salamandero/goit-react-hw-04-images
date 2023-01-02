@@ -1,4 +1,5 @@
 import { Toaster } from 'react-hot-toast';
+// toast;
 import { Component } from 'react';
 
 import Searchbar from './Searchbar';
@@ -21,18 +22,18 @@ class App extends Component {
   getSearchNameForm = searchName => {
     this.setState({ nameRequest: searchName });
   };
-  async componentDidMount() {
-    this.setState({ isLoading: true });
-    try {
-      const images = await fetchImgGallery(this.state.nameRequest);
-      this.setState({ images });
-      // console.log(images);
-    } catch (error) {
-      this.setState({ error });
-    } finally {
-      this.setState({ isLoading: false });
-    }
-  }
+  // async componentDidMount() {
+  //   this.setState({ isLoading: true });
+  //   try {
+  //     const images = await fetchImgGallery(this.state.nameRequest);
+  //     this.setState({ images });
+  //     console.log(images);
+  //   } catch (error) {
+  //     this.setState({ error });
+  //   } finally {
+  //     this.setState({ isLoading: false });
+  //   }
+  // }
   // async componentDidMount(prevProps, prevSate) {
   //   const prevName = prevProps.nameRequest;
   //   const nextName = this.state.nameRequest;
@@ -52,29 +53,30 @@ class App extends Component {
   //     });
   //     this.setState({ images: response.data.hits });
 
-  // .then(response => this.setState({ imagesFound: response.data.hits[0] }))
-  // .then(response => {
-  //   if (response.ok) {
-  //     return response.json();
-  //   }
-  //   return Promise.reject(
-  //     new Error(`Don't find you request ${nextName} Bugaga`)
-  //   );
-  // })
-  // .catch(error => this.setState({ error }))
-  // .finally(() => {
-  //   this.setState({ isLoading: false });
-  // });
   //   }
   // }
+  async componentDidUpdate(prevProps, prevState) {
+    if (
+      prevState.page !== this.state.page ||
+      prevState.nameRequest !== this.state.nameRequest
+    ) {
+      this.setState({ isLoading: true });
+      try {
+        const images = await fetchImgGallery(this.state.nameRequest);
+        this.setState({ images });
+        console.log(images);
+      } catch (error) {
+        this.setState({ error });
+      } finally {
+        this.setState({ isLoading: false });
+      }
+      console.log('Fetch data');
+    }
+  }
   loadMore = () => {
     this.setState(prevState => ({ page: prevState.page + 1 }));
   };
-  // componentDidUpdate(prevProps, prevState) {
-  //if(prevState.page !== this.state.page ||
-  // prevState.nameRequest !== this.state.nameRequest)
-  // {console.log("Fetch data");}
-  // }
+
   render() {
     const { isLoading, nameRequest, images } = this.state;
     return (
@@ -85,14 +87,14 @@ class App extends Component {
         </div>
         <Searchbar onSubmit={this.getSearchNameForm} />
         {isLoading && <Loader />}
+        {/* {isLoading ? <Loader /> : <ImageGallery foundImages={images} />} */}
         {images.length > 0 ? <ImageGallery foundImages={images} /> : null}
-
+        {/* toast.error('Sorry, didn`t find, try again') ) */}
         {/*NO-ANSWER && <Loader /> */}
         {/* {!isLoadImg && <Loader />} 
        
         <ImageGalleryItem />*/}
-
-        {/* {Images && <Button loadMore={this.loadMore} />} */}
+        {/* {images && <Button loadMore={this.loadMore} />} */}
         {/* <Modal /> */}
         <Toaster position="top-right" reverseOrder={false} />
       </MainWrapper>

@@ -8,7 +8,6 @@ import {
   SearchFormBtnLabel,
   SearchFormInput,
 } from './Searchbar.styled';
-// import {ReactComponent as MyIcon} from
 
 class Searchbar extends Component {
   state = {
@@ -21,7 +20,7 @@ class Searchbar extends Component {
     event.preventDefault();
 
     if (this.state.searchName.trim() === '') {
-      return toast.error('Write name pokemon');
+      return toast.error('Write search name');
     }
     this.props.onSubmit(this.state.searchName);
     this.setState({ searchName: '' });
