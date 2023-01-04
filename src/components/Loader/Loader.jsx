@@ -1,16 +1,19 @@
 import { Bars } from 'react-loader-spinner';
+import { PositionLoader } from './Loader.styled';
 
 const Loader = () => {
   return (
-    <Bars
-      height="80"
-      width="80"
-      color="#253af7"
-      ariaLabel="bars-loading"
-      wrapperStyle={{}}
-      wrapperClass=""
-      visible={true}
-    />
+    <PositionLoader>
+      <Bars
+        height="80"
+        width="80"
+        color="#253af7"
+        ariaLabel="bars-loading"
+        wrapperStyle={{}}
+        wrapperClass=""
+        visible={true}
+      />
+    </PositionLoader>
   );
 };
 
