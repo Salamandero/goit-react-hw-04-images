@@ -65,6 +65,12 @@ class App extends Component {
         if (images.totalHits === 0) {
           return toast.error('Sorry, don`t find, try again');
         }
+        if (this.state.page >= 2) {
+          return this.setState({
+            images: [...prevState.images, ...images.hits],
+            totalHits: images.totalHits,
+          });
+        }
         // this.setState(prevState => ({ images: [...prevState.images, images] }));
         // добавление фото
         this.setState({
@@ -96,10 +102,9 @@ class App extends Component {
     // }
   }
   loadMore = () => {
-    // this.setState(prevState => ({ page: prevState.page + 1 }));
     this.setState(prevState => ({
       page: prevState.page + 1,
-      images: [...prevState.images, ...this.state.images],
+      // images: [...prevState.images, ...this.state.images],
     }));
   };
 
