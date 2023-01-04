@@ -1,6 +1,7 @@
 import { Component } from 'react';
 import { ImSearch } from 'react-icons/im';
 import toast from 'react-hot-toast';
+import PropTypes from 'prop-types';
 import {
   HeaderSearch,
   SearchForm,
@@ -12,6 +13,12 @@ import {
 class Searchbar extends Component {
   state = {
     searchName: '',
+  };
+  static propTypes = {
+    searchName: PropTypes.string,
+    handleFormChange: PropTypes.func,
+    handleSubmit: PropTypes.func,
+    onSubmit: PropTypes.func,
   };
   handleFormChange = event => {
     this.setState({ searchName: event.currentTarget.value.toLowerCase() });
@@ -27,7 +34,7 @@ class Searchbar extends Component {
   };
 
   render() {
-    const searchName = this.state.searchName;
+    const { searchName } = this.state;
     return (
       <HeaderSearch>
         <SearchForm onSubmit={this.handleSubmit}>
@@ -41,8 +48,8 @@ class Searchbar extends Component {
             name="searchName"
             value={searchName}
             onChange={this.handleFormChange}
-            // autocomplete="off"
-            // autofocus
+            autoComplete="off"
+            autoFocus
             placeholder="Search images and photos"
           />
         </SearchForm>

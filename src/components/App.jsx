@@ -1,12 +1,12 @@
 import toast, { Toaster } from 'react-hot-toast';
-// toast;
+
 import { Component } from 'react';
 
 import Searchbar from './Searchbar';
 import ImageGallery from './ImageGallery';
 import Loader from './Loader';
-// import Modal from './Modal';
 import Button from './Button/Button';
+import PropTypes from 'prop-types';
 import { MainWrapper } from './App.styled';
 
 import { fetchImgGallery } from '../services/api';
@@ -15,10 +15,20 @@ class App extends Component {
     images: [],
     nameRequest: '',
     page: 1,
-    largeImgSrc: '',
     isLoading: false,
     error: null,
     totalHits: null,
+  };
+  static propTypes = {
+    images: PropTypes.array,
+    nameRequest: PropTypes.string,
+    page: PropTypes.number,
+    isLoading: PropTypes.bool,
+    error: PropTypes.string,
+    totalHits: PropTypes.number,
+    getSearchNameForm: PropTypes.func,
+    loadMore: PropTypes.func,
+    ShowBtnLoadMore: PropTypes.number,
   };
   getSearchNameForm = searchName => {
     this.setState({
@@ -28,28 +38,6 @@ class App extends Component {
       totalHits: null,
     });
   };
-
-  // async componentDidMount(prevProps, prevSate) {
-  //   const prevName = prevProps.nameRequest;
-  //   const nextName = this.state.nameRequest;
-
-  //   if (prevName !== nextName) {
-  //     this.setState({ isLoading: true, imagesFound: null });
-  //     const key_API = '31091511-86aaddbe12333e38c55dc8e63';
-  //     const response = await axios.get('https://pixabay.com/api/', {
-  //       params: {
-  //         key: key_API,
-  //         q: nextName,
-  //         page: this.state.page,
-  //         per_page: 12,
-  //         image_type: 'photo',
-  //         orientation: 'horizontal',
-  //       },
-  //     });
-  //     this.setState({ images: response.data.hits });
-
-  //   }
-  // }
 
   async componentDidUpdate(_, prevState) {
     if (
@@ -63,7 +51,7 @@ class App extends Component {
           this.state.page
         );
         if (images.totalHits === 0) {
-          return toast.error('Sorry, don`t find, try again');
+          return toast.error('Sorry, didn`t find, try another');
         }
         if (this.state.page >= 2) {
           return this.setState({
@@ -71,35 +59,17 @@ class App extends Component {
             totalHits: images.totalHits,
           });
         }
-        // this.setState(prevState => ({ images: [...prevState.images, images] }));
-        // добавление фото
+
         this.setState({
-          // images: [...prevState.images, ...images.hits],
           images: images.hits,
           totalHits: images.totalHits,
         });
-        // if (this.state.page >= 2) {
-        //   this.setState({
-        //     images: [...prevState.images, ...this.state.images],
-        //   });
-        // }
-        // console.log({ ...prevState.images, ...images.hits });
       } catch (error) {
         this.setState({ error });
       } finally {
         this.setState({ isLoading: false });
       }
     }
-    // if (this.state.page >= 2) {
-    //   prevImages = prevState.images;
-    //   this.setState({
-    //     images: [...prevState.images, ...this.state.images],
-    //   });
-    // }
-
-    // if (this.state.images.length === 0) {
-    //   toast.error('Sorry, don`t find, try again');
-    // }
   }
   loadMore = () => {
     this.setState(prevState => ({
@@ -115,13 +85,12 @@ class App extends Component {
     return (
       <MainWrapper>
         <Searchbar onSubmit={this.getSearchNameForm} />
-        <div>{isLoading && <div>Please wait... </div>}</div>
+        {/* <div>{isLoading && <div>Please wait... </div>}</div> */}
 
         {totalHits > 0 ? <ImageGallery foundImages={images} /> : null}
 
         {isLoading && <Loader />}
         {ShowBtnLoadMore > 0 && <Button loadMore={this.loadMore} />}
-        {/* <Modal /> */}
         <Toaster position="top-right" reverseOrder={false} />
       </MainWrapper>
     );

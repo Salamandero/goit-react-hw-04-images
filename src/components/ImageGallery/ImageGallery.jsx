@@ -1,5 +1,6 @@
 import ImageGalleryItem from '../ImageGalleryItem';
 import { ImageGalleryList } from './ImageGallery.styled';
+import PropTypes from 'prop-types';
 
 const ImageGallery = ({ foundImages }) => {
   return (
@@ -14,6 +15,16 @@ const ImageGallery = ({ foundImages }) => {
       ))}
     </ImageGalleryList>
   );
+};
+ImageGallery.propTypes = {
+  foundImages: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      webformatURL: PropTypes.string.isRequired,
+      tags: PropTypes.string.isRequired,
+      largeImageURL: PropTypes.string.isRequired,
+    })
+  ),
 };
 
 export default ImageGallery;
