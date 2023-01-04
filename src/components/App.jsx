@@ -62,6 +62,9 @@ class App extends Component {
           this.state.nameRequest,
           this.state.page
         );
+        if (images.totalHits === 0) {
+          return toast.error('Sorry, don`t find, try again');
+        }
         // this.setState(prevState => ({ images: [...prevState.images, images] }));
         // добавление фото
         this.setState({
@@ -88,7 +91,7 @@ class App extends Component {
     //   });
     // }
 
-    // if (this.state.images.length === 0 && this.state.nameRequest.length > 0) {
+    // if (this.state.images.length === 0) {
     //   toast.error('Sorry, don`t find, try again');
     // }
   }
@@ -107,15 +110,9 @@ class App extends Component {
     return (
       <MainWrapper>
         <Searchbar onSubmit={this.getSearchNameForm} />
-        <div>
-          {isLoading && <div>Please wait... </div>}
-          {/* {!nameRequest && <div>Введіть ім'я </div>} */}
-        </div>
+        <div>{isLoading && <div>Please wait... </div>}</div>
 
         {totalHits > 0 ? <ImageGallery foundImages={images} /> : null}
-        {totalHits === 0 && toast.error('Sorry, don`t find, try again')}
-        {/* toast.error('Sorry, don`t find, try again') ) */}
-        {/*NO-ANSWER && <Loader /> */}
 
         {isLoading && <Loader />}
         {ShowBtnLoadMore > 0 && <Button loadMore={this.loadMore} />}

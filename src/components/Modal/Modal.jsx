@@ -28,7 +28,7 @@ class Modal extends Component {
     return createPortal(
       <OverlayWindow onClick={this.handleBackdropClick}>
         <ModalWindow>
-          <img src={largeImageURL} alt={tags} />
+          <img src={largeImageURL} alt={tags} loading="lazy" />
         </ModalWindow>
       </OverlayWindow>,
       modalRoot

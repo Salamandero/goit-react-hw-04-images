@@ -21,6 +21,7 @@ class ImageGalleryItem extends Component {
         <ImgGalleryItemImg
           src={webformatURL}
           alt={tags}
+          loading="lazy"
           onClick={this.toggleModal}
         />
         {this.state.isOpenModal && (
