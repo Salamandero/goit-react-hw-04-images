@@ -6,7 +6,6 @@ import Searchbar from './Searchbar';
 import ImageGallery from './ImageGallery';
 import Loader from './Loader';
 import Button from './Button/Button';
-import PropTypes from 'prop-types';
 import { MainWrapper } from './App.styled';
 
 import { fetchImgGallery } from '../services/api';
@@ -19,17 +18,7 @@ class App extends Component {
     error: null,
     totalHits: null,
   };
-  static propTypes = {
-    images: PropTypes.array,
-    nameRequest: PropTypes.string,
-    page: PropTypes.number,
-    isLoading: PropTypes.bool,
-    error: PropTypes.string,
-    totalHits: PropTypes.number,
-    getSearchNameForm: PropTypes.func,
-    loadMore: PropTypes.func,
-    ShowBtnLoadMore: PropTypes.number,
-  };
+
   getSearchNameForm = searchName => {
     this.setState({
       nameRequest: searchName,
@@ -50,18 +39,28 @@ class App extends Component {
           this.state.nameRequest,
           this.state.page
         );
+
+        const arrImages = images.hits.map(
+          ({ id, webformatURL, tags, largeImageURL }) => ({
+            id,
+            webformatURL,
+            tags,
+            largeImageURL,
+          })
+        );
+
         if (images.totalHits === 0) {
           return toast.error('Sorry, didn`t find, try another');
         }
         if (this.state.page >= 2) {
           return this.setState({
-            images: [...prevState.images, ...images.hits],
+            images: [...prevState.images, ...arrImages],
             totalHits: images.totalHits,
           });
         }
 
         this.setState({
-          images: images.hits,
+          images: arrImages,
           totalHits: images.totalHits,
         });
       } catch (error) {
@@ -74,13 +73,17 @@ class App extends Component {
   loadMore = () => {
     this.setState(prevState => ({
       page: prevState.page + 1,
-      // images: [...prevState.images, ...this.state.images],
     }));
   };
-
+  showBtnLoadMore = () => {
+    const ShowBtn = this.state.totalHits - this.state.page * 12;
+    if (ShowBtn > 0 && !this.state.isLoading) {
+      return true;
+    }
+    return false;
+  };
   render() {
-    const { isLoading, images, totalHits, page } = this.state;
-    const ShowBtnLoadMore = totalHits - page * 12;
+    const { isLoading, images, totalHits } = this.state;
 
     return (
       <MainWrapper>
@@ -90,7 +93,7 @@ class App extends Component {
         {totalHits > 0 ? <ImageGallery foundImages={images} /> : null}
 
         {isLoading && <Loader />}
-        {ShowBtnLoadMore > 0 && <Button loadMore={this.loadMore} />}
+        {this.showBtnLoadMore() && <Button loadMore={this.loadMore} />}
         <Toaster position="top-right" reverseOrder={false} />
       </MainWrapper>
     );
