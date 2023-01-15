@@ -49,7 +49,7 @@ const App = () => {
         }
         if (page >= 2) {
           return (
-            setImages([...images, ...arrImages]),
+            setImages(images => [...images, ...arrImages]),
             setTotalHits(imgGallery.totalHits)
           );
         }
