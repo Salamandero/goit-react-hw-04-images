@@ -39,8 +39,7 @@ const Modal = ({ onClose, largeImageURL, tags }) => {
 Modal.propTypes = {
   tags: PropTypes.string.isRequired,
   largeImageURL: PropTypes.string.isRequired,
-  handleBackdropClick: PropTypes.func,
-  handleKeyDown: PropTypes.func,
+  onClose: PropTypes.func.isRequired,
 };
 
 export default Modal;
