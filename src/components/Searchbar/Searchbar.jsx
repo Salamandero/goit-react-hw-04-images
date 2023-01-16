@@ -49,10 +49,7 @@ const Searchbar = ({ onSubmit }) => {
 };
 
 Searchbar.propTypes = {
-  searchName: PropTypes.string,
-  handleFormChange: PropTypes.func,
-  handleSubmit: PropTypes.func,
-  onSubmit: PropTypes.func,
+  onSubmit: PropTypes.func.isRequired,
 };
 
 export default Searchbar;
